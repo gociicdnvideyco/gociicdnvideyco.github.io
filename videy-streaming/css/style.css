@@ -240,3 +240,53 @@ figure {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(5px); }
 }
+
+.next-page-button {
+  display: inline-block;
+  padding: 14px 34px;
+  background: linear-gradient(135deg, #ff5722, #ff3d00);
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(255,61,0,0.7), 0 0 25px rgba(255,87,34,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeBounce 1s ease forwards, glowPulse 2s infinite alternate;
+  animation-delay: 0.5s;
+}
+
+.next-page-button:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 25px rgba(255,61,0,0.9), 0 0 40px rgba(255,87,34,0.8);
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+/* Animasi fade-in + bounce */
+@keyframes fadeBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1.05);
+  }
+  80% {
+    transform: translateY(6px) scale(0.97);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animasi glowing pulsasi */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255,61,0,0.6), 0 0 20px rgba(255,87,34,0.4);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(255,61,0,1), 0 0 50px rgba(255,87,34,0.9);
+  }
+}
