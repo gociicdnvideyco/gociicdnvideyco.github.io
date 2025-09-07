@@ -7,103 +7,103 @@
   <title>Videy Streaming</title>
 <style>
 /* General */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #111;
-  color: #fff;
-}
-
-header {
-  text-align: center;
-  padding: 20px;
-}
-
-header img {
-  height: 60px;
-}
-
-/* Gallery */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-figure {
-  background: #222;
-  border-radius: 10px;
-  overflow: hidden;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-figure:hover {
-  transform: scale(1.05);
-}
-
-figure img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-figcaption {
-  padding: 10px;
-  font-size: 14px;
-  color: #ddd;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.modal.active { display: flex; }
-
-.modal video {
-  width: 80%;
-  max-width: 800px;
-  border-radius: 10px;
-}
-
-.next-preview {
-  margin-top: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-.next-preview img {
-  width: 80px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #111;
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+    header img {
+      height: 60px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    figure {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    figure:hover {
+      transform: scale(1.05);
+    }
+    figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    figcaption {
+      padding: 10px;
+      font-size: 14px;
+      color: #ddd;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .modal.active { display: flex; }
+    .modal video {
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
+    }
+    .next-preview {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .next-preview img {
+      width: 80px;
+      border-radius: 5px;
+    }
+    .countdown {
+      margin-left: auto;
+      font-weight: bold;
+      color: #f66;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .video-link {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 6px 12px;
+  background: #328585;
+  color: #111;
   border-radius: 5px;
-}
-
-.countdown {
-  margin-left: auto;
+  text-decoration: none;
   font-weight: bold;
-  color: #f66;
 }
 
-.close-btn {
-  position: absolute;
-  top: 20px; right: 20px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #fff;
+.video-link:hover {
+  background: #FFFFFF;
 }
+
   </style>
 </head>
 <body>
@@ -400,16 +400,6 @@ figcaption {
         <a href="https://ilossvidey-co.github.io/xxcdnvideycoj.mp4" class="video-link" aria-label="Watch video: Bro chose the right day to run in the rain 😩">Play</a>
       </figure>
 
-		</div>
-    <button class="nav-btn right" onclick="scrollGallery('gallery1', 1)">&#10095;</button>
-    <div class="dots" id="dots1"></div>
-  </div>
-
-	  <!-- Gallery 2 -->
-  <h2>Recommended for You</h2>
-  <div class="gallery-wrapper">
-    <button class="nav-btn left" onclick="scrollGallery('gallery2', -1)">&#10094;</button>
-    <div class="gallery-container" id="gallery2">
     <figure itemscope itemtype="http://schema.org/VideoObject">
         <img src="assets/images/31.jpg" alt="Omg no way she did that 👀" itemprop="thumbnailUrl" loading="lazy" width="280" height="180" />
         <figcaption itemprop="name">Omg no way she did that 👀</figcaption>
@@ -680,8 +670,8 @@ figcaption {
         <a href="https://ilossvidey-co.github.io/xxxcdnvideycom.mp4" class="video-link" aria-label="Watch video: Your mind can’t prepare for this!🔥">Play</a>
       </figure>
 	</div>
-    <button class="nav-btn right" onclick="scrollGallery('gallery2', 1)">&#10095;</button>
-    <div class="dots" id="dots2"></div>
+    <button class="nav-btn right" onclick="scrollGallery('gallery1', 1)">&#10095;</button>
+    <div class="dots" id="dots1"></div>
   </div>
  </main>
 
