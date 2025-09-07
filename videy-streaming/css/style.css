@@ -1,70 +1,56 @@
-/* ========== Global ========== */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #111;
+  background: #111;
   color: #fff;
-  overflow-x: hidden;
+  margin: 0;
 }
 
 header {
+  background: #222;
   text-align: center;
   padding: 20px;
-  background: #000;
 }
 
-.logo {
+header h1.logo {
+  margin: 0;
   font-size: 28px;
   color: #e50914;
-  font-weight: bold;
-  margin: 0;
 }
 
-.tagline {
+header p.tagline {
+  margin: 0;
   font-size: 14px;
   color: #aaa;
 }
 
-/* ========== Gallery ========== */
 .gallery {
   padding: 20px;
 }
 
 .gallery h2 {
-  margin: 10px 0;
-  font-size: 20px;
-  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 .gallery-wrapper {
   position: relative;
-  margin: 20px 0;
 }
 
 .gallery-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 0;
-}
-
-.gallery-container::-webkit-scrollbar {
-  display: none;
 }
 
 figure {
-  background: #1a1a1a;
+  background: #1c1c1c;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
-  min-width: 180px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s;
 }
 
 figure:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+  transform: scale(1.05);
 }
 
 figure img {
@@ -72,71 +58,34 @@ figure img {
   border-radius: 8px;
 }
 
-figcaption {
-  margin: 8px 0;
+figure figcaption {
+  margin-top: 8px;
   font-size: 14px;
-  color: #eee;
+  color: #ddd;
 }
 
-/* Tombol Play */
-.video-link {
+figure a.video-link {
   display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
   background: #e50914;
   color: #fff;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 13px;
   text-decoration: none;
-  transition: background 0.3s ease;
+  font-size: 14px;
 }
 
-.video-link:hover {
-  background: #b00610;
+figure a.video-link:hover {
+  background: #f40612;
 }
 
-/* ========== Navigasi Galeri ========== */
-.nav-btn {
-  position: absolute;
-  top: 40%;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  font-size: 28px;
-  padding: 8px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.3s ease;
-}
-
-.nav-btn:hover {
-  background: rgba(229,9,20,0.8);
-}
-
-.nav-btn.left {
-  left: 0;
-}
-.nav-btn.right {
-  right: 0;
-}
-
-/* ========== Video Player Container ========== */
 #video-player-container {
-  margin: 30px auto;
-  max-width: 960px;
+  margin: 20px;
   text-align: center;
-  display: none; /* awalnya sembunyi */
-  animation: fadeIn 0.6s ease forwards;
 }
 
 #video-player-container video {
-  width: 100%;
-  border-radius: 10px;
-  outline: none;
-}
-
-/* Animasi */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  width: 90%;
+  max-width: 800px;
+  border-radius: 12px;
 }
