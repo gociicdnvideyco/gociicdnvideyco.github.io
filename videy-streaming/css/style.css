@@ -1,182 +1,197 @@
-/* ====== Global ====== */
+/* Reset & font */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  background-color: #111;
-  color: #f1f1f1;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background: #0d0d0f;
+  color: #fff;
+  overflow-x: hidden;
   line-height: 1.6;
 }
 
-/* ====== Header ====== */
+/* Header */
 header {
   text-align: center;
-  padding: 20px 10px;
-  background: linear-gradient(90deg, #ff0000, #990000);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  padding: 1.5rem 1rem;
+  background: linear-gradient(90deg, #111, #222);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.7);
 }
-
-header h1.logo {
-  color: #fff;
+header .logo {
   font-size: 2rem;
+  font-weight: 700;
+  color: #ff0057;
   letter-spacing: 2px;
-  margin-bottom: 5px;
-  animation: fadeInDown 1s ease;
+  text-shadow: 0 0 15px rgba(255,0,87,0.8);
 }
-
 header .tagline {
-  color: #f1f1f1;
   font-size: 0.9rem;
-  opacity: 0.8;
+  color: #ccc;
 }
 
-/* ====== Ads Box ====== */
+/* Ads box */
 .ads-box {
-  background: #1a1a1a;
-  text-align: center;
-  padding: 10px;
-  margin: 10px auto;
-  border: 1px solid #333;
-  border-radius: 8px;
-}
-
-.ads-box span {
-  color: #ffcc00;
-  font-size: 0.85rem;
-  animation: blink 1.5s infinite;
-}
-
-/* ====== Gallery ====== */
-main.gallery {
-  padding: 20px;
-}
-
-main.gallery h2 {
-  margin-bottom: 15px;
-  color: #fff;
-  font-size: 1.4rem;
-  text-align: left;
-}
-
-/* Gallery wrapper */
-.gallery-wrapper {
-  position: relative;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  max-width: 100%;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
   overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: marquee 15s linear infinite;
+}
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
+/* Gallery */
+.gallery {
+  padding: 2rem 1rem;
+}
+.gallery h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  border-left: 4px solid #ff0057;
+  padding-left: 0.5rem;
+}
 .gallery-container {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
-/* Hide scrollbar on mobile */
-.gallery-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* Gallery items */
+/* Figure (card) */
 figure {
-  background: #1e1e1e;
+  position: relative;
+  background: #1a1a1d;
   border-radius: 12px;
-  padding: 10px;
-  width: 280px;
-  flex: 0 0 auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  overflow: hidden;
+  cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-figure:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 18px rgba(255,0,0,0.3);
-}
-
 figure img {
   width: 100%;
-  border-radius: 10px;
+  height: auto;
   display: block;
-  margin-bottom: 8px;
-  transition: opacity 0.3s ease;
+  transition: transform 0.4s ease;
 }
-
-figure img:hover {
-  opacity: 0.85;
+figure:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
 }
-
+figure:hover img {
+  transform: scale(1.1);
+}
 figcaption {
-  color: #f1f1f1;
-  font-weight: bold;
+  padding: 0.7rem;
+  font-size: 0.9rem;
   text-align: center;
-  margin-bottom: 8px;
-}
-
-/* ====== Buttons ====== */
-.video-link {
-  display: block;
-  padding: 10px 16px;
-  background: #ff0000;
-  color: #fff;
-  border-radius: 6px;
-  text-decoration: none;
-  text-align: center;
-  font-weight: bold;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.video-link:hover {
-  background: #cc0000;
-  transform: translateY(-2px);
-}
-
-/* Gallery navigation */
-.nav-btn {
+  background: rgba(0,0,0,0.7);
   position: absolute;
-  top: 40%;
-  background: rgba(255, 0, 0, 0.7);
+  bottom: 0;
+  width: 100%;
+  backdrop-filter: blur(6px);
+}
+
+/* Play button */
+.video-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: #ff0057;
   color: #fff;
-  border: none;
-  padding: 10px 14px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.3s ease;
-  z-index: 10;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255,0,87,0.8);
+}
+figure:hover .video-link {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.nav-btn:hover {
-  background: rgba(255,0,0,0.9);
+/* Hover glowing effect */
+.video-link:hover {
+  background: #ff3369;
+  box-shadow: 0 0 25px rgba(255,0,87,1);
 }
 
-.nav-btn.left {
-  left: 5px;
+/* Smooth fade-in */
+figure {
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
 }
-
-.nav-btn.right {
-  right: 5px;
-}
-
-/* ====== Footer ====== */
-footer {
-  text-align: center;
-  padding: 15px;
-  font-size: 0.8rem;
-  color: #aaa;
-  background: #1a1a1a;
-  margin-top: 30px;
-}
-
-/* ====== Animations ====== */
-@keyframes blink {
-  50% { opacity: 0.5; }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Iklan Box === */
+.ads-box {
+  position: relative;
+  overflow: hidden;
+  margin: 1rem auto;
+  max-width: 320px;
+  height: 260px;
+  border-radius: 12px;
+  background: rgba(20, 20, 20, 0.85);
+  border: 2px solid #ff0057;
+  animation: glow 3s ease-in-out infinite alternate;
+  box-shadow: 0 0 20px rgba(255, 0, 87, 0.5);
+}
+
+/* Border glow animasi */
+@keyframes glow {
+  from { box-shadow: 0 0 10px #ff0057; }
+  to   { box-shadow: 0 0 25px #ff0057; }
+}
+
+/* === Marquee Text === */
+.ads-box .marquee {
+  white-space: nowrap;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  padding: 5px 10px;
+  animation: marquee 12s linear infinite;
+}
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* === Iklan Iframe === */
+.ads-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  animation: floatAd 6s ease-in-out infinite alternate;
+}
+@keyframes floatAd {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+/* Hover efek */
+.ads-box:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
