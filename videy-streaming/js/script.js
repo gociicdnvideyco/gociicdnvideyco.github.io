@@ -1,3 +1,62 @@
+
+<script>
+    function setupProgressDots(galleryId, dotsId, interval = 5000) {
+      const gallery = document.getElementById(galleryId);
+      const figures = gallery.querySelectorAll("figure");
+      const dotsContainer = document.getElementById(dotsId);
+
+      let currentIndex = 0;
+      let timer;
+
+      // buat dot sesuai jumlah slide
+      figures.forEach((_, i) => {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        const progress = document.createElement("div");
+        progress.classList.add("progress");
+        dot.appendChild(progress);
+
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = dotsContainer.querySelectorAll(".dot .progress");
+
+      function goToSlide(index) {
+        currentIndex = index;
+        gallery.scrollTo({ left: figures[index].offsetLeft, behavior: "smooth" });
+        resetProgress();
+        restartTimer();
+      }
+
+      function resetProgress() {
+        dots.forEach(p => {
+          p.style.transition = "none";
+          p.style.width = "0%";
+        });
+        void dots[currentIndex].offsetWidth; // force reflow
+        dots[currentIndex].style.transition = `width ${interval}ms linear`;
+        dots[currentIndex].style.width = "100%";
+      }
+
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % figures.length;
+        gallery.scrollTo({ left: figures[currentIndex].offsetLeft, behavior: "smooth" });
+        resetProgress();
+      }
+
+      function restartTimer() {
+        clearInterval(timer);
+        timer = setInterval(nextSlide, interval);
+      }
+
+      function startAutoPlay() {
+        resetProgress();
+        timer = setInterval(nextSlide, interval);
+      }
+
+      startAutoPlay();
+    }
 document.addEventListener("DOMContentLoaded", () => {
   const videoLinks = document.querySelectorAll(".video-link");
   const modal = document.getElementById("videoModal");
@@ -77,3 +136,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
