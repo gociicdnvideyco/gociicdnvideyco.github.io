@@ -120,6 +120,58 @@ h2 {
   display: block;
 }
 
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.gallery-container figure {
+  background: #111;
+  border-radius: 6px;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  padding-bottom: 10px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.gallery-container figure:hover {
+  transform: scale(1.05);
+}
+
+.gallery-container img {
+  width: 100%;
+  display: block;
+  border-bottom: 2px solid #222;
+}
+
+.gallery-container figcaption {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.gallery-container a.video-link {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 10px;
+  background: crimson;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: background 0.3s;
+  z-index: 10;
+  position: relative;
+}
+
+.gallery-container a.video-link:hover {
+  background: gold;
+  color: black;
+}
+
 figure {
   background: #1a1a1a;
   border-radius: 8px;
@@ -183,5 +235,6 @@ figcaption {
   justify-content: center;
   align-items: center;
 }
+
 
 
