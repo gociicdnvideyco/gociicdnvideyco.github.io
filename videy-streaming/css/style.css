@@ -195,3 +195,48 @@ figure {
   transform: scale(1.02);
   transition: transform 0.3s ease;
 }
+
+.iklan-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 6px;
+  z-index: 2;
+
+  /* Gradasi pelangi berjalan */
+  background: linear-gradient(270deg, #ff4e50, #f9d423, #24fe41, #24c6dc, #ff4e50);
+  background-size: 800% 800%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Glow lembut */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6),
+               0 0 12px rgba(255, 255, 255, 0.4);
+
+  /* Kombinasi animasi */
+  animation: gradientMove 6s ease infinite,
+             breathe 3s ease-in-out infinite,
+             floatX 4s ease-in-out infinite;
+}
+
+/* Warna pelangi bergerak */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Efek “bernapas” */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* Geser kiri-kanan halus */
+@keyframes floatX {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
