@@ -252,9 +252,11 @@ figure {
   text-decoration: none;
   box-shadow: 0 0 15px rgba(255,61,0,0.7), 0 0 25px rgba(255,87,34,0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
+
+  /* FIX: tombol default langsung kelihatan */
+  opacity: 1;
   animation: fadeBounce 1s ease forwards, glowPulse 2s infinite alternate;
-  animation-delay: 0.5s;
+  animation-delay: 0.2s;
 }
 
 .next-page-button:hover {
@@ -277,6 +279,7 @@ figure {
     transform: translateY(6px) scale(0.97);
   }
   100% {
+    opacity: 1; /* pastikan akhir tetap terlihat */
     transform: translateY(0) scale(1);
   }
 }
