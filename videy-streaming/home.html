@@ -6,108 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Videy Streaming</title>
 <style>
-/* ========== GLOBAL ========== */
+/* General */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #111;
-  color: #fff;
-}
-
-/* ========== HEADER ========== */
-.site-header {
-  text-align: center;
-  padding: 20px 10px;
-  background: #000;
-}
-
-.logo {
-  font-size: 28px;
   margin: 0;
-}
-
-.logo-main {
-  color: #ffcc00; /* kuning */
-  font-weight: bold;
-}
-
-.logo-accent {
+  background: #111;
   color: #fff;
 }
 
-.tagline {
-  color: #ccc;
-  margin: 5px 0 0;
-  font-size: 14px;
-}
-
-/* ========== IKLAN BERJALAN ========== */
-.ads-ticker {
-  position: relative;
-  overflow: hidden;
-  background: #222;
-  border-top: 1px solid #444;
-  border-bottom: 1px solid #444;
-  padding: 8px 0;
-}
-
-.ticker-viewport {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.ticker-track {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scrollAds 20s linear infinite;
-}
-
-.ad-item {
-  margin-right: 50px;
-  color: #ffcc00;
-}
-
-@keyframes scrollAds {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
-}
-
-/* tombol close iklan (opsional) */
-.ads-close {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  background: transparent;
-  border: none;
-  color: #ffcc00;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-/* ========== GALERI VIDEO ========== */
-.row {
+header {
+  text-align: center;
   padding: 20px;
 }
 
-h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #ffcc00;
+header img {
+  height: 60px;
 }
 
+/* Gallery */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 figure {
-  background: #1a1a1a;
-  border-radius: 8px;
+  background: #222;
+  border-radius: 10px;
   overflow: hidden;
-  margin: 0;
+  text-align: center;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s;
 }
 
 figure:hover {
@@ -121,48 +51,58 @@ figure img {
 }
 
 figcaption {
-  padding: 8px;
-  font-size: 14px;
-  color: #eee;
-}
-
-.ads-box {
-  text-align: center;
-  background: #000;
-  color: red;
   padding: 10px;
-  border-top: 2px solid #333;
-  border-bottom: 2px solid #333;
-  margin: 20px 0;
-  overflow: hidden;
-  position: relative;
+  font-size: 14px;
+  color: #ddd;
 }
 
-.marquee {
-  white-space: nowrap;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.marquee span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: marquee 12s linear infinite;
-  font-size: 16px;
-  color: yellow;
-  font-weight: bold;
-}
-
-@keyframes marquee {
-  0%   { transform: translateX(0%); }
-  100% { transform: translateX(-100%); }
-}
-
-.ad-script {
-  margin-top: 10px;
-  display: flex;
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.modal.active { display: flex; }
+
+.modal video {
+  width: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+.next-preview {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.next-preview img {
+  width: 80px;
+  border-radius: 5px;
+}
+
+.countdown {
+  margin-left: auto;
+  font-weight: bold;
+  color: #f66;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
 }
   </style>
 </head>
