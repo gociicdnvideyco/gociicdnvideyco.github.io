@@ -1,247 +1,175 @@
-/* RESET */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body Dark Theme */
 body {
   font-family: Arial, sans-serif;
-  background: #141414;
+  background-color: #141414;
   color: #fff;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* HEADER */
+/* Header */
 header {
+  text-align: center;
   padding: 20px;
   background: #000;
 }
 
 .logo {
-  font-size: 28px;
+  color: #f5c518; /* kuning ala Netflix Prime */
+  font-size: 2.5rem;
   font-weight: bold;
-  color: #e50914;
+  letter-spacing: 2px;
+  animation: fadeInDown 1s ease;
 }
 
 .tagline {
-  font-size: 14px;
-  color: #aaa;
+  font-size: 1rem;
+  color: #bbb;
+  animation: fadeInUp 1.5s ease;
 }
 
-/* ADS */
+/* Ads box marquee */
 .ads-box {
-  background: #000;
-  color: #fff;
   padding: 10px;
-  text-align: center;
-  border-bottom: 2px solid #222;
-}
-
-.marquee {
+  background: #202020;
+  border-top: 2px solid #f5c518;
+  border-bottom: 2px solid #f5c518;
   overflow: hidden;
-  white-space: nowrap;
-  box-sizing: border-box;
+  position: relative;
 }
-
 .marquee span {
   display: inline-block;
   padding-left: 100%;
   animation: marquee 15s linear infinite;
-  color: #e50914;
+  color: #f5c518;
   font-weight: bold;
+}
+
+/* Gallery */
+.gallery {
+  padding: 20px;
+}
+
+h2 {
+  margin: 20px 0;
+  font-size: 1.5rem;
+  color: #fff;
+  border-left: 4px solid #f5c518;
+  padding-left: 10px;
+  animation: fadeIn 1.2s ease;
+}
+
+.gallery-wrapper {
+  position: relative;
+}
+
+.gallery-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+figure {
+  min-width: 200px;
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 1s ease;
+}
+
+figure:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+figure img {
+  width: 100%;
+  border-bottom: 2px solid #f5c518;
+}
+
+figcaption {
+  padding: 8px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* Nav Buttons */
+.nav-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #f5c518;
+  font-size: 2rem;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 50%;
+}
+
+.nav-btn:hover {
+  background: rgba(245,197,24,0.8);
+  color: #000;
+}
+
+.nav-btn.left { left: 10px; }
+.nav-btn.right { right: 10px; }
+
+/* Next button */
+.next-page-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 12px 25px;
+  background: #f5c518;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.next-page-button:hover {
+  transform: scale(1.1);
+  background: #fff000;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #000;
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 30px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
-
-/* GALLERY */
-.gallery {
-  padding: 20px;
-}
-
-.gallery h2 {
-  margin: 15px 0;
-  font-size: 20px;
-}
-
-.gallery-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.gallery-container {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 0;
-}
-
-/* Hide scrollbar */
-.gallery-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* VIDEO ITEM */
-figure {
-  background: #1c1c1c;
-  border-radius: 8px;
-  overflow: hidden;
-  width: 280px;
-  flex-shrink: 0;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-figure:hover {
-  transform: scale(1.07);
-}
-
-figure img,
-figure video {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-figcaption {
-  padding: 8px;
-  font-size: 14px;
-  color: #ddd;
-}
-
-/* PLAY BUTTON */
-.video-link {
-  display: inline-block;
-  margin: 8px auto 12px;
-  padding: 8px 18px;
-  background: #e50914;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-
-.video-link:hover {
-  background: #f40612;
-}
-
-/* NAV BUTTONS */
-.nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  border: none;
-  padding: 12px;
-  cursor: pointer;
-  font-size: 20px;
-  border-radius: 50%;
-  z-index: 5;
-}
-
-.nav-btn.left { left: 10px; }
-.nav-btn.right { right: 10px; }
-
-.nav-btn:hover {
-  background: rgba(255,255,255,0.4);
-}
-
-/* DOTS */
-.dots {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.dots span {
-  display: inline-block;
-  height: 10px;
-  width: 10px;
-  margin: 0 4px;
-  background: #555;
-  border-radius: 50%;
-  transition: background 0.3s;
-}
-
-.dots span.active {
-  background: #e50914;
-}
-
-/* NEXT PAGE BUTTON */
-.next-page-button {
-  display: inline-block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background: #e50914;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.next-page-button:hover {
-  background: #f40612;
-}
-
-/* FOOTER */
-footer {
-  padding: 15px;
-  text-align: center;
-  font-size: 13px;
-  color: #aaa;
-  background: #000;
-  margin-top: 20px;
-}
-
-.ads-box {
-  text-align: center;
-  background: #000;
-  color: red;
-  padding: 10px;
-  border-top: 2px solid #333;
-  border-bottom: 2px solid #333;
-  margin: 20px 0;
-  overflow: hidden;
-  position: relative;
-}
-
-.marquee {
-  white-space: nowrap;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.marquee span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: marquee 12s linear infinite;
-  font-size: 16px;
-  color: yellow;
-  font-weight: bold;
-}
-
-@keyframes marquee {
-  0%   { transform: translateX(0%); }
-  100% { transform: translateX(-100%); }
-}
-
-.ad-script {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-
-
-
-
-
-
-
