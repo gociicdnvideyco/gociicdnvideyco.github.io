@@ -1,25 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Buat container video kalau belum ada
-  let container = document.getElementById("video-player-container");
-  if (!container) {
-    container = document.createElement("div");
-    container.id = "video-player-container";
-    document.body.insertBefore(container, document.querySelector("main"));
-  }
+  // bikin container player di atas gallery
+  let playerContainer = document.createElement("div");
+  playerContainer.id = "video-player-container";
+  document.body.prepend(playerContainer);
 
-  // Tangani semua link Play
-  document.querySelectorAll("a.video-link").forEach(link => {
+  // ambil semua tombol
+  document.querySelectorAll(".video-link").forEach(link => {
     link.addEventListener("click", e => {
-      e.preventDefault(); // cegah buka tab baru
-      const src = link.getAttribute("href"); // ambil URL video
+      e.preventDefault();
+      let videoUrl = link.getAttribute("href");
 
-      container.innerHTML = `
-        <video controls autoplay>
-          <source src="${src}" type="video/mp4">
-          Browser kamu tidak mendukung video tag.
-        </video>
+      // isi container player
+      playerContainer.innerHTML = `
+        <div class="player-box">
+          <video controls autoplay>
+            <source src="${videoUrl}" type="video/mp4">
+            Browser kamu tidak support video tag.
+          </video>
+          <button class="close-btn">✖</button>
+        </div>
       `;
-      window.scrollTo({ top: container.offsetTop, behavior: "smooth" });
+
+      // tombol close
+      playerContainer.querySelector(".close-btn").addEventListener("click", () => {
+        playerContainer.innerHTML = "";
+      });
     });
   });
 });
