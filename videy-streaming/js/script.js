@@ -1,70 +1,79 @@
-// Buka modal video
-const modal = document.getElementById("videoModal");
-const videoPlayer = document.getElementById("videoPlayer");
-const closeBtn = document.getElementById("closeBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const videoLinks = document.querySelectorAll(".video-link");
+  const modal = document.getElementById("videoModal");
+  const videoPlayer = document.getElementById("videoPlayer");
+  const closeBtn = document.getElementById("closeBtn");
+  const nextPreview = document.getElementById("nextPreview");
+  const nextThumb = document.getElementById("nextThumb");
+  const nextTitle = document.getElementById("nextTitle");
+  const countdownEl = document.getElementById("countdown");
 
-const videoLinks = document.querySelectorAll(".video-link");
-let currentIndex = 0;
+  let figures = Array.from(document.querySelectorAll("figure"));
+  let currentIndex = 0;
+  let countdownTimer;
 
-videoLinks.forEach((link, index) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    openVideo(index);
+  // 🔹 Saat tombol Play ditekan
+  videoLinks.forEach((link, index) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentIndex = index;
+      openModal(link.getAttribute("href"), figures[index]);
+    });
   });
-});
 
-function openVideo(index) {
-  currentIndex = index;
-  const url = videoLinks[index].getAttribute("href");
-  modal.style.display = "flex";
-  videoPlayer.src = url;
-  videoPlayer.play();
+  // 🔹 Fungsi buka modal
+  function openModal(videoUrl, figure) {
+    modal.style.display = "flex";
+    videoPlayer.src = videoUrl;
+    videoPlayer.play();
 
-  showNextPreview();
-}
+    // Reset preview next video
+    setupNextPreview();
+  }
 
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-  videoPlayer.pause();
-  videoPlayer.src = "";
-};
+  // 🔹 Setup next video preview + countdown
+  function setupNextPreview() {
+    clearInterval(countdownTimer);
 
-// Klik luar modal tutup
-window.onclick = (e) => {
-  if (e.target == modal) {
+    let nextIndex = (currentIndex + 1) % figures.length;
+    let nextFigure = figures[nextIndex];
+    let thumb = nextFigure.querySelector("img").src;
+    let title = nextFigure.querySelector("figcaption").innerText;
+
+    nextThumb.src = thumb;
+    nextTitle.innerText = title;
+
+    let countdown = 10;
+    countdownEl.innerText = `Next in ${countdown}s`;
+
+    countdownTimer = setInterval(() => {
+      countdown--;
+      countdownEl.innerText = `Next in ${countdown}s`;
+
+      if (countdown <= 0) {
+        clearInterval(countdownTimer);
+        currentIndex = nextIndex;
+        let nextVideo = nextFigure.querySelector(".video-link").href;
+        openModal(nextVideo, nextFigure);
+      }
+    }, 1000);
+  }
+
+  // 🔹 Tutup modal
+  closeBtn.addEventListener("click", () => {
     modal.style.display = "none";
     videoPlayer.pause();
     videoPlayer.src = "";
-  }
-};
+    clearInterval(countdownTimer);
+  });
 
-// NEXT VIDEO PREVIEW + COUNTDOWN
-const nextPreview = document.getElementById("nextPreview");
-const nextThumb = document.getElementById("nextThumb");
-const nextTitle = document.getElementById("nextTitle");
-const countdownEl = document.getElementById("countdown");
-
-let countdownTimer;
-
-function showNextPreview() {
-  let nextIndex = (currentIndex + 1) % videoLinks.length;
-  let nextFigure = videoLinks[nextIndex].closest("figure");
-  let thumb = nextFigure.querySelector("img").src;
-  let title = nextFigure.querySelector("figcaption").innerText;
-
-  nextThumb.src = thumb;
-  nextTitle.innerText = "Up Next: " + title;
-
-  let timeLeft = 10;
-  countdownEl.innerText = `Playing in ${timeLeft}s`;
-
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
-    timeLeft--;
-    countdownEl.innerText = `Playing in ${timeLeft}s`;
-    if (timeLeft <= 0) {
+  // 🔹 Klik di luar modal juga menutup
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      videoPlayer.pause();
+      videoPlayer.src = "";
       clearInterval(countdownTimer);
-      openVideo(nextIndex);
     }
-  }, 1000);
-}
+  });
+});
