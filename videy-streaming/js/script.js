@@ -1,3 +1,21 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".video-link");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+
+      const figure = btn.closest("figure");
+      const videoUrl = btn.getAttribute("href");
+
+      // Hapus konten lama (gambar + caption + tombol)
+      figure.innerHTML = `
+        <video src="${videoUrl}" controls autoplay></video>
+      `;
+    });
+  });
+});
+
 function setupProgressDots(galleryId, dotsId, interval = 5000) {
       const gallery = document.getElementById(galleryId);
       const figures = gallery.querySelectorAll("figure");
@@ -123,6 +141,7 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
       if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
       if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
     });    
+
 
 
 
