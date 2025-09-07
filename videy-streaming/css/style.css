@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -6,15 +7,15 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #141414;
+  background: #141414;
   color: #fff;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* Header */
+/* HEADER */
 header {
   padding: 20px;
-  text-align: left;
+  background: #000;
 }
 
 .logo {
@@ -23,116 +24,178 @@ header {
   color: #e50914;
 }
 
-/* Section Title */
-h2 {
-  margin: 20px;
-  font-size: 20px;
+.tagline {
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ADS */
+.ads-box {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 2px solid #222;
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+  color: #e50914;
   font-weight: bold;
 }
 
-/* Gallery */
-.gallery-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* GALLERY */
+.gallery {
   padding: 20px;
 }
 
-/* Video Item */
+.gallery h2 {
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+.gallery-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+/* Hide scrollbar */
+.gallery-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* VIDEO ITEM */
 figure {
   background: #1c1c1c;
   border-radius: 8px;
   overflow: hidden;
+  width: 280px;
+  flex-shrink: 0;
   text-align: center;
   transition: transform 0.3s ease;
 }
 
 figure:hover {
-  transform: scale(1.03);
+  transform: scale(1.07);
 }
 
-figure img, 
+figure img,
 figure video {
   width: 100%;
-  height: 300px;
+  height: 180px;
   object-fit: cover;
-  display: block;
 }
 
 figcaption {
   padding: 8px;
   font-size: 14px;
   color: #ddd;
-  min-height: 40px;
 }
 
-/* Play Button */
+/* PLAY BUTTON */
 .video-link {
   display: inline-block;
-  margin: 10px auto 15px;
-  padding: 10px 20px;
+  margin: 8px auto 12px;
+  padding: 8px 18px;
   background: #e50914;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
   font-weight: bold;
   transition: background 0.3s ease;
-  cursor: pointer;
 }
 
 .video-link:hover {
   background: #f40612;
 }
-/* Animasi video muncul */
-@keyframes fadeUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
 
-/* Close button */
-.close-btn {
+/* NAV BUTTONS */
+.nav-btn {
   position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 32px;
-  font-weight: bold;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
   color: #fff;
+  border: none;
+  padding: 12px;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-.close-btn:hover {
-  color: #e50914;
-  transform: rotate(90deg);
+  font-size: 20px;
+  border-radius: 50%;
+  z-index: 5;
 }
 
-/* Next video preview */
-.next-preview {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #222;
-  padding: 10px 16px;
-  border-radius: 6px;
-  max-width: 400px;
-  animation: fadeUp 0.6s ease;
+.nav-btn.left { left: 10px; }
+.nav-btn.right { right: 10px; }
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.4);
 }
 
-.next-preview img {
-  width: 100px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
+/* DOTS */
+.dots {
+  text-align: center;
+  margin-top: 10px;
 }
 
-.next-preview span {
-  font-size: 14px;
-  color: #ccc;
+.dots span {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  margin: 0 4px;
+  background: #555;
+  border-radius: 50%;
+  transition: background 0.3s;
 }
 
-.countdown {
+.dots span.active {
+  background: #e50914;
+}
+
+/* NEXT PAGE BUTTON */
+.next-page-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background: #e50914;
+  color: #fff;
   font-weight: bold;
-  color: #e50914;
-  margin-left: auto;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.next-page-button:hover {
+  background: #f40612;
+}
+
+/* FOOTER */
+footer {
+  padding: 15px;
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+  background: #000;
+  margin-top: 20px;
 }
 
 .ads-box {
@@ -173,6 +236,7 @@ figcaption {
   justify-content: center;
   align-items: center;
 }
+
 
 
 
