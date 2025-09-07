@@ -1,175 +1,70 @@
-// === Scroll Gallery Function ===
-function scrollGallery(galleryId, direction) {
-  const container = document.getElementById(galleryId);
-  const scrollAmount = 320; // lebar 1 card video + margin
-  container.scrollBy({
-    left: direction * scrollAmount,
-    behavior: "smooth"
-  });
-
-  updateDots(galleryId);
-}
-
-// === Dots Generator ===
-function generateDots(galleryId) {
-  const container = document.getElementById(galleryId);
-  const dotsContainer = document.getElementById("dots1");
-  const items = container.querySelectorAll("figure");
-
-  dotsContainer.innerHTML = ""; // clear dulu
-  items.forEach((_, index) => {
-    const dot = document.createElement("span");
-    dot.addEventListener("click", () => {
-      container.scrollTo({
-        left: index * 320,
-        behavior: "smooth"
-      });
-      setActiveDot(dotsContainer, index);
-    });
-    dotsContainer.appendChild(dot);
-  });
-
-  // set default active
-  setActiveDot(dotsContainer, 0);
-}
-
-// === Update Dots on Scroll ===
-function updateDots(galleryId) {
-  const container = document.getElementById(galleryId);
-  const dotsContainer = document.getElementById("dots1");
-  const index = Math.round(container.scrollLeft / 320);
-  setActiveDot(dotsContainer, index);
-}
-
-// === Set Active Dot ===
-function setActiveDot(dotsContainer, index) {
-  const dots = dotsContainer.querySelectorAll("span");
-  dots.forEach((dot, i) => {
-    dot.classList.toggle("active", i === index);
-  });
-}
-
-// === Init on Page Load ===
-document.addEventListener("DOMContentLoaded", () => {
-  generateDots("gallery1");
-});
-
-// Ambil elemen modal dan video player
+// Buka modal video
 const modal = document.getElementById("videoModal");
 const videoPlayer = document.getElementById("videoPlayer");
 const closeBtn = document.getElementById("closeBtn");
 
-// Preview next video
+const videoLinks = document.querySelectorAll(".video-link");
+let currentIndex = 0;
+
+videoLinks.forEach((link, index) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    openVideo(index);
+  });
+});
+
+function openVideo(index) {
+  currentIndex = index;
+  const url = videoLinks[index].getAttribute("href");
+  modal.style.display = "flex";
+  videoPlayer.src = url;
+  videoPlayer.play();
+
+  showNextPreview();
+}
+
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+  videoPlayer.pause();
+  videoPlayer.src = "";
+};
+
+// Klik luar modal tutup
+window.onclick = (e) => {
+  if (e.target == modal) {
+    modal.style.display = "none";
+    videoPlayer.pause();
+    videoPlayer.src = "";
+  }
+};
+
+// NEXT VIDEO PREVIEW + COUNTDOWN
 const nextPreview = document.getElementById("nextPreview");
 const nextThumb = document.getElementById("nextThumb");
 const nextTitle = document.getElementById("nextTitle");
 const countdownEl = document.getElementById("countdown");
 
-let countdownTimer; // interval countdown
-let countdownValue = 5; // detik default
-let nextVideoUrl = "";
+let countdownTimer;
 
-// Semua figure dengan atribut data-video
-const figures = document.querySelectorAll("figure");
+function showNextPreview() {
+  let nextIndex = (currentIndex + 1) % videoLinks.length;
+  let nextFigure = videoLinks[nextIndex].closest("figure");
+  let thumb = nextFigure.querySelector("img").src;
+  let title = nextFigure.querySelector("figcaption").innerText;
 
-// Event: klik figure / link video
-figures.forEach(fig => {
-  const link = fig.querySelector(".video-link");
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
+  nextThumb.src = thumb;
+  nextTitle.innerText = "Up Next: " + title;
 
-    const videoUrl = fig.dataset.video || this.getAttribute("href");
-    nextVideoUrl = fig.dataset.next || "";
-    const nextThumbUrl = fig.dataset.nextThumb || "";
-    const nextTitleText = fig.dataset.nextTitle || "";
+  let timeLeft = 10;
+  countdownEl.innerText = `Playing in ${timeLeft}s`;
 
-    // Set video player
-    videoPlayer.src = videoUrl;
-    modal.style.display = "block";
-    videoPlayer.play();
-
-    // Set preview next video
-    if (nextVideoUrl) {
-      nextThumb.src = nextThumbUrl;
-      nextTitle.textContent = nextTitleText;
-      nextPreview.style.display = "flex";
-    } else {
-      nextPreview.style.display = "none";
-    }
-  });
-});
-
-// Event: close modal
-closeBtn.addEventListener("click", () => {
-  closeModal();
-});
-
-// Klik di luar modal = close
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    closeModal();
-  }
-});
-
-// Fungsi tutup modal
-function closeModal() {
-  modal.style.display = "none";
-  videoPlayer.pause();
-  videoPlayer.src = "";
   clearInterval(countdownTimer);
-  countdownEl.textContent = "";
+  countdownTimer = setInterval(() => {
+    timeLeft--;
+    countdownEl.innerText = `Playing in ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(countdownTimer);
+      openVideo(nextIndex);
+    }
+  }, 1000);
 }
-
-// Event: video selesai → mulai countdown
-videoPlayer.addEventListener("ended", () => {
-  if (nextVideoUrl) {
-    countdownValue = 5;
-    countdownEl.textContent = `Next in ${countdownValue}s`;
-    countdownTimer = setInterval(() => {
-      countdownValue--;
-      countdownEl.textContent = `Next in ${countdownValue}s`;
-
-      if (countdownValue <= 0) {
-        clearInterval(countdownTimer);
-        playNextVideo();
-      }
-    }, 1000);
-  }
-});
-
-// Fungsi play next video
-function playNextVideo() {
-  if (nextVideoUrl) {
-    videoPlayer.src = nextVideoUrl;
-    videoPlayer.play();
-
-    // Reset preview biar ga numpuk
-    nextPreview.style.display = "none";
-    countdownEl.textContent = "";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const videoLinks = document.querySelectorAll(".video-link");
-  const videoModal = document.getElementById("videoModal");
-  const videoPlayer = document.getElementById("videoPlayer");
-  const closeBtn = document.getElementById("closeBtn");
-
-  videoLinks.forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      const videoUrl = link.getAttribute("href");
-      videoPlayer.src = videoUrl;
-      videoModal.style.display = "flex";
-      videoPlayer.play();
-    });
-  });
-
-  closeBtn.addEventListener("click", () => {
-    videoModal.style.display = "none";
-    videoPlayer.pause();
-    videoPlayer.src = "";
-  });
-});
-
-
