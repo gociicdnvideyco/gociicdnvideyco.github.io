@@ -87,10 +87,37 @@ h2 {
   color: #ffcc00;
 }
 
-.gallery {
+/* Bungkus galeri */
+.gallery-wrapper {
+  padding: 20px;
+  background: #111;
+}
+
+/* Kontainer gambar: pakai grid */
+.gallery-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 15px;
+}
+
+/* Figure tiap video */
+.gallery-container figure {
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.gallery-container figure:hover {
+  transform: scale(1.05);
+}
+
+.gallery-container img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 figure {
@@ -156,4 +183,5 @@ figcaption {
   justify-content: center;
   align-items: center;
 }
+
 
