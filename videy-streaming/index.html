@@ -12,15 +12,26 @@
     <p class="tagline">Streaming for Everyone</p>
   </header>
 
-  <main class="gallery">
-  <figure data-video="https://raw.githubusercontent.com/ilossvidey-co/ilossvidey-co.github.io/main/xcdnvideycoh.mp4"
-          data-next="https://raw.githubusercontent.com/ilossvidey-co/ilossvidey-co.github.io/main/xcdnvideycok.mp4"
-          data-next-thumb="assets/images/1.jpg"
-          data-next-title="He had his chance with a baddie and took it">
-    <img src="assets/images/2.jpg" alt="Blow out the candle">
-    <figcaption>She’s impressed by his shoe size</figcaption>
-  </figure>
-</main>
+  <h2>Trending Now</h2>
+<div class="gallery-wrapper">
+  <button class="nav-btn left" onclick="scrollGallery('gallery1', -1)">&#10094;</button>
+  
+  <div class="gallery-container" id="gallery1">
+    <figure itemscope itemtype="http://schema.org/VideoObject"> 
+      <video controls preload="none" width="280" height="180" poster="a.jpg" itemprop="contentUrl">
+        <source src="https://ilossvidey-co.github.io/xcdnvideycoi.mp4/" type="video/mp4">
+      </video>
+      <figcaption itemprop="She wants it to last longer</figcaption>
+      <meta itemprop="description" content="A heartwarming clip of a baby's joyful smile, perfect for sharing." />
+      <meta itemprop="uploadDate" content="2025-08-27" />
+      <meta itemprop="thumbnailUrl" content=""https://gociicdnvideyco.github.io/videy-streaming/assets/images/1.jpg" />
+    </figure>
+  </div>
+  
+  <button class="nav-btn right" onclick="scrollGallery('gallery1', 1)">&#10095;</button>
+  <div class="dots" id="dots1"></div>
+</div>
+
 
   <!-- Modal Player -->
   <div class="modal" id="videoModal">
