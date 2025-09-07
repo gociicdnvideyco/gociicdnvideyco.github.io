@@ -1,43 +1,25 @@
-// Geser gallery (next/prev button)
-function scrollGallery(id, direction) {
-  const container = document.getElementById(id);
-  const scrollAmount = 300; // px
-  container.scrollBy({
-    left: direction * scrollAmount,
-    behavior: 'smooth'
-  });
-}
-
-// Tangkap klik Play
 document.addEventListener("DOMContentLoaded", () => {
-  const videoLinks = document.querySelectorAll(".video-link");
-  const playerContainer = document.getElementById("video-player-container");
+  // Buat container video kalau belum ada
+  let container = document.getElementById("video-player-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "video-player-container";
+    document.body.insertBefore(container, document.querySelector("main"));
+  }
 
-  videoLinks.forEach(link => {
-    link.addEventListener("click", function(e) {
-      e.preventDefault();
+  // Tangani semua link Play
+  document.querySelectorAll("a.video-link").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault(); // cegah buka tab baru
+      const src = link.getAttribute("href"); // ambil URL video
 
-      const videoUrl = this.getAttribute("href");
-
-      // Inject player
-      playerContainer.innerHTML = `
-        <video controls autoplay id="main-video">
-          <source src="${videoUrl}" type="video/mp4">
-          Browser Anda tidak mendukung video tag.
+      container.innerHTML = `
+        <video controls autoplay>
+          <source src="${src}" type="video/mp4">
+          Browser kamu tidak mendukung video tag.
         </video>
       `;
-
-      // Tampilkan container
-      playerContainer.style.display = "block";
-
-      // Auto-play next video setelah selesai
-      const videoElement = document.getElementById("main-video");
-      videoElement.addEventListener("ended", () => {
-        let next = this.closest("figure").nextElementSibling;
-        if (next && next.querySelector(".video-link")) {
-          next.querySelector(".video-link").click();
-        }
-      });
+      window.scrollTo({ top: container.offsetTop, behavior: "smooth" });
     });
   });
 });
