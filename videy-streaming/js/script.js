@@ -1,138 +1,80 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll(".video-link");
+  // ▶️ Play Video Inline + Auto-Next
+  function playVideo(figure, videoUrl) {
+    figure.innerHTML = `
+      <video src="${videoUrl}" controls autoplay></video>
+    `;
+    const video = figure.querySelector("video");
 
+    // AUTO NEXT
+    video.addEventListener("ended", () => {
+      let nextFigure = figure.nextElementSibling;
+      while (nextFigure && nextFigure.tagName !== "FIGURE") {
+        nextFigure = nextFigure.nextElementSibling;
+      }
+
+      if (nextFigure) {
+        const nextBtn = nextFigure.querySelector(".video-link");
+        if (nextBtn) {
+          const nextUrl = nextBtn.getAttribute("href");
+          playVideo(nextFigure, nextUrl);
+          // scroll otomatis ke next video
+          nextFigure.scrollIntoView({ behavior: "smooth", inline: "center" });
+        }
+      } else {
+        // Kalau tidak ada video berikutnya → arahkan ke NEXT PAGE button
+        const nextPageBtn = document.querySelector(".next-page-button");
+        if (nextPageBtn) {
+          window.location.href = nextPageBtn.href;
+        }
+      }
+    });
+  }
+
+  const buttons = document.querySelectorAll(".video-link");
   buttons.forEach(btn => {
     btn.addEventListener("click", e => {
-      e.preventDefault();
+      if (!btn.classList.contains("next-page-button")) {
+        e.preventDefault();
+        const figure = btn.closest("figure");
+        const videoUrl = btn.getAttribute("href");
+        playVideo(figure, videoUrl);
+      }
+    });
+  });
 
-      const figure = btn.closest("figure");
-      const videoUrl = btn.getAttribute("href");
+  // ⏩ Gallery Scroll
+  window.scrollGallery = function(id, direction) {
+    const container = document.getElementById(id);
+    const scrollAmount = 320; // width 280 + gap
+    container.scrollBy({
+      left: scrollAmount * direction,
+      behavior: "smooth"
+    });
+  };
 
-      // Hapus konten lama (gambar + caption + tombol)
-      figure.innerHTML = `
-        <video src="${videoUrl}" controls autoplay></video>
-      `;
+  // ● Dots Indicator
+  const galleries = document.querySelectorAll(".gallery-container");
+  galleries.forEach((gallery, idx) => {
+    const dotsBox = document.getElementById(`dots${idx+1}`);
+    if (!dotsBox) return;
+    const items = gallery.querySelectorAll("figure");
+    items.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dotsBox.appendChild(dot);
+    });
+
+    gallery.addEventListener("scroll", () => {
+      const scrollLeft = gallery.scrollLeft;
+      const index = Math.round(scrollLeft / 320);
+      const dots = dotsBox.querySelectorAll("span");
+      dots.forEach(d => d.classList.remove("active"));
+      if (dots[index]) dots[index].classList.add("active");
     });
   });
 });
 
-function setupProgressDots(galleryId, dotsId, interval = 5000) {
-      const gallery = document.getElementById(galleryId);
-      const figures = gallery.querySelectorAll("figure");
-      const dotsContainer = document.getElementById(dotsId);
-
-      let currentIndex = 0;
-      let timer;
-
-      // buat dot sesuai jumlah slide
-      figures.forEach((_, i) => {
-        const dot = document.createElement("div");
-        dot.classList.add("dot");
-        const progress = document.createElement("div");
-        progress.classList.add("progress");
-        dot.appendChild(progress);
-
-        dot.addEventListener("click", () => goToSlide(i));
-        dotsContainer.appendChild(dot);
-      });
-
-      const dots = dotsContainer.querySelectorAll(".dot .progress");
-
-      function goToSlide(index) {
-        currentIndex = index;
-        gallery.scrollTo({ left: figures[index].offsetLeft, behavior: "smooth" });
-        resetProgress();
-        restartTimer();
-      }
-
-      function resetProgress() {
-        dots.forEach(p => {
-          p.style.transition = "none";
-          p.style.width = "0%";
-        });
-        void dots[currentIndex].offsetWidth; // force reflow
-        dots[currentIndex].style.transition = `width ${interval}ms linear`;
-        dots[currentIndex].style.width = "100%";
-      }
-
-      function nextSlide() {
-        currentIndex = (currentIndex + 1) % figures.length;
-        gallery.scrollTo({ left: figures[currentIndex].offsetLeft, behavior: "smooth" });
-        resetProgress();
-      }
-
-      function restartTimer() {
-        clearInterval(timer);
-        timer = setInterval(nextSlide, interval);
-      }
-
-      function startAutoPlay() {
-        resetProgress();
-        timer = setInterval(nextSlide, interval);
-      }
-
-      startAutoPlay();
-    }
-
-    // tombol panah manual scroll
-    function scrollGallery(galleryId, direction) {
-      const gallery = document.getElementById(galleryId);
-      const scrollAmount = 250;
-      gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-    }
-
-    setupProgressDots("gallery1", "dots1");
-    setupProgressDots("gallery2", "dots2");
-       
-     // Scroll reveal
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("active");
-      });
-    }, { threshold: 0.2 });
-    reveals.forEach(el => observer.observe(el));
-
-  // 🔹 Saat tombol Play ditekan
-  videoLinks.forEach((link, index) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      currentIndex = index;
-      openModal(link.getAttribute("href"), figures[index]);
-    });
-  });
-
-    // Reset preview next video
-    setupNextPreview();
-  }
-
-  // 🔹 Setup next video preview + countdown
-  function setupNextPreview() {
-    clearInterval(countdownTimer);
-
-    let nextIndex = (currentIndex + 1) % figures.length;
-    let nextFigure = figures[nextIndex];
-    let thumb = nextFigure.querySelector("img").src;
-    let title = nextFigure.querySelector("figcaption").innerText;
-
-    nextThumb.src = thumb;
-    nextTitle.innerText = title;
-
-    let countdown = 10;
-    countdownEl.innerText = `Next in ${countdown}s`;
-
-    countdownTimer = setInterval(() => {
-      countdown--;
-      countdownEl.innerText = `Next in ${countdown}s`;
-
-      if (countdown <= 0) {
-        clearInterval(countdownTimer);
-        currentIndex = nextIndex;
-        let nextVideo = nextFigure.querySelector(".video-link").href;
-        openModal(nextVideo, nextFigure);
-      }
-    }, 1000);
-  }
 
 // 🚫 Proteksi klik kanan & shortcut inspect
     document.addEventListener("contextmenu", e => e.preventDefault());
@@ -141,6 +83,7 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
       if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
       if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
     });    
+
 
 
 
