@@ -1,0 +1,115 @@
+/* Logo Text */
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ff4c4c;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 14px;
+  color: #ccc;
+  margin: 5px 0 0;
+}
+
+
+/* General */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #111;
+  color: #fff;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+header img {
+  height: 60px;
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+figure {
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+figure:hover {
+  transform: scale(1.05);
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+figcaption {
+  padding: 10px;
+  font-size: 14px;
+  color: #ddd;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal.active { display: flex; }
+
+.modal video {
+  width: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+.next-preview {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.next-preview img {
+  width: 80px;
+  border-radius: 5px;
+}
+
+.countdown {
+  margin-left: auto;
+  font-weight: bold;
+  color: #f66;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
