@@ -1,80 +1,47 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ▶️ Play Video Inline + Auto-Next
-  function playVideo(figure, videoUrl) {
-    figure.innerHTML = `
-      <video src="${videoUrl}" controls autoplay></video>
-    `;
-    const video = figure.querySelector("video");
-
-    // AUTO NEXT
-    video.addEventListener("ended", () => {
-      let nextFigure = figure.nextElementSibling;
-      while (nextFigure && nextFigure.tagName !== "FIGURE") {
-        nextFigure = nextFigure.nextElementSibling;
-      }
-
-      if (nextFigure) {
-        const nextBtn = nextFigure.querySelector(".video-link");
-        if (nextBtn) {
-          const nextUrl = nextBtn.getAttribute("href");
-          playVideo(nextFigure, nextUrl);
-          // scroll otomatis ke next video
-          nextFigure.scrollIntoView({ behavior: "smooth", inline: "center" });
-        }
-      } else {
-        // Kalau tidak ada video berikutnya → arahkan ke NEXT PAGE button
-        const nextPageBtn = document.querySelector(".next-page-button");
-        if (nextPageBtn) {
-          window.location.href = nextPageBtn.href;
-        }
-      }
-    });
-  }
-
-  const buttons = document.querySelectorAll(".video-link");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", e => {
-      if (!btn.classList.contains("next-page-button")) {
-        e.preventDefault();
-        const figure = btn.closest("figure");
-        const videoUrl = btn.getAttribute("href");
-        playVideo(figure, videoUrl);
-      }
-    });
+// Scroll gallery left/right
+function scrollGallery(id, direction) {
+  const container = document.getElementById(id);
+  const scrollAmount = 300; 
+  container.scrollBy({
+    left: direction * scrollAmount,
+    behavior: "smooth"
   });
+}
 
-  // ⏩ Gallery Scroll
-  window.scrollGallery = function(id, direction) {
-    const container = document.getElementById(id);
-    const scrollAmount = 320; // width 280 + gap
-    container.scrollBy({
-      left: scrollAmount * direction,
-      behavior: "smooth"
-    });
-  };
+// Tangani klik tombol Play
+document.querySelectorAll(".video-link").forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    const videoUrl = this.getAttribute("href");
 
-  // ● Dots Indicator
-  const galleries = document.querySelectorAll(".gallery-container");
-  galleries.forEach((gallery, idx) => {
-    const dotsBox = document.getElementById(`dots${idx+1}`);
-    if (!dotsBox) return;
-    const items = gallery.querySelectorAll("figure");
-    items.forEach((_, i) => {
-      const dot = document.createElement("span");
-      if (i === 0) dot.classList.add("active");
-      dotsBox.appendChild(dot);
-    });
+    // Hapus video lama jika ada
+    const oldPlayer = document.querySelector("video.active-player");
+    if (oldPlayer) oldPlayer.remove();
 
-    gallery.addEventListener("scroll", () => {
-      const scrollLeft = gallery.scrollLeft;
-      const index = Math.round(scrollLeft / 320);
-      const dots = dotsBox.querySelectorAll("span");
-      dots.forEach(d => d.classList.remove("active"));
-      if (dots[index]) dots[index].classList.add("active");
+    // Buat video player baru
+    const player = document.createElement("video");
+    player.src = videoUrl;
+    player.controls = true;
+    player.autoplay = true;
+    player.classList.add("active-player");
+
+    // Sisipkan ke figure
+    this.closest("figure").appendChild(player);
+
+    // Event auto-play next video
+    player.addEventListener("ended", () => {
+      const nextFigure = this.closest("figure").nextElementSibling;
+      if (nextFigure) {
+        const nextLink = nextFigure.querySelector(".video-link");
+        if (nextLink) {
+          setTimeout(() => {
+            nextLink.click();
+          }, 3000); // delay 3 detik sebelum auto-play
+        }
+      }
     });
   });
 });
-
 
 // 🚫 Proteksi klik kanan & shortcut inspect
     document.addEventListener("contextmenu", e => e.preventDefault());
@@ -83,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
       if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
     });    
+
 
 
 
