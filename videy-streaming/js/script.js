@@ -1,118 +1,106 @@
-// === Gallery Scroll ===
+// =======================
+// Gallery Navigation
+// =======================
 function scrollGallery(id, direction) {
   const container = document.getElementById(id);
-  const scrollAmount = 220; // item width + gap
+  const scrollAmount = 320; // ukuran per item
   container.scrollBy({
     left: direction * scrollAmount,
-    behavior: 'smooth'
+    behavior: "smooth"
+  });
+  updateDots(id);
+}
+
+function updateDots(id) {
+  const container = document.getElementById(id);
+  const dots = document.getElementById("dots1");
+  const scrollLeft = container.scrollLeft;
+  const maxScroll = container.scrollWidth - container.clientWidth;
+  const index = Math.round((scrollLeft / maxScroll) * (dots.children.length - 1));
+
+  [...dots.children].forEach((dot, i) => {
+    dot.classList.toggle("active", i === index);
   });
 }
 
-// === Dots Indicator ===
-function initDots(galleryId, dotsId) {
-  const container = document.getElementById(galleryId);
-  const dots = document.getElementById(dotsId);
-  if (!container || !dots) return;
+// =======================
+// Video Player Controls
+// =======================
+const videoPlayer = document.createElement("video");
+videoPlayer.controls = true;
+videoPlayer.className = "main-video fade-in";
+document.body.appendChild(videoPlayer);
 
-  const total = Math.ceil(container.scrollWidth / container.clientWidth);
-  dots.innerHTML = "";
+let videoLinks = [];
+let currentIndex = 0;
+let countdownTimer = null;
 
-  for (let i = 0; i < total; i++) {
-    const span = document.createElement("span");
-    if (i === 0) span.classList.add("active");
-    dots.appendChild(span);
-  }
+// ambil semua video link
+document.querySelectorAll(".video-link").forEach((link, index) => {
+  videoLinks.push(link.href);
 
-  container.addEventListener("scroll", () => {
-    const index = Math.round(container.scrollLeft / container.clientWidth);
-    dots.querySelectorAll("span").forEach((dot, i) => {
-      dot.classList.toggle("active", i === index);
-    });
-  });
-}
-
-// Inisialisasi dots untuk semua gallery
-window.addEventListener("DOMContentLoaded", () => {
-  initDots("gallery1", "dots1");
-  initDots("gallery2", "dots2");
-});
-
-// === Auto Play Next Video ===
-const countdownOverlay = document.createElement("div");
-countdownOverlay.className = "countdown-overlay";
-document.body.appendChild(countdownOverlay);
-
-document.querySelectorAll("a.video-link").forEach(link => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    const videoUrl = link.getAttribute("href");
-
-    // Buka video player sederhana
-    const player = document.createElement("video");
-    player.src = videoUrl;
-    player.controls = true;
-    player.autoplay = true;
-    player.style.position = "fixed";
-    player.style.top = "50%";
-    player.style.left = "50%";
-    player.style.transform = "translate(-50%, -50%)";
-    player.style.width = "80%";
-    player.style.height = "auto";
-    player.style.zIndex = "10000";
-    player.style.border = "2px solid #e50914";
-    player.style.borderRadius = "10px";
-    player.style.background = "#000";
-    document.body.appendChild(player);
-
-    // Close dengan ESC
-    document.addEventListener("keydown", (ev) => {
-      if (ev.key === "Escape") {
-        player.remove();
-        countdownOverlay.style.display = "none";
-      }
-    });
-
-    // Saat selesai -> countdown Next Video
-    player.addEventListener("ended", () => {
-      let count = 5;
-      countdownOverlay.innerHTML = `Next video in ${count}...`;
-      countdownOverlay.style.display = "block";
-
-      const interval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countdownOverlay.innerHTML = `Next video in ${count}...`;
-        } else {
-          clearInterval(interval);
-          countdownOverlay.style.display = "none";
-
-          // Cari video berikutnya
-          const allLinks = Array.from(document.querySelectorAll("a.video-link"));
-          const currentIndex = allLinks.indexOf(link);
-          const nextLink = allLinks[currentIndex + 1];
-          if (nextLink) {
-            nextLink.click();
-          } else {
-            player.remove();
-          }
-        }
-      }, 1000);
-    });
+    currentIndex = index;
+    playVideo(videoLinks[currentIndex]);
   });
 });
 
+// mainkan video
+function playVideo(src) {
+  videoPlayer.src = src;
+  videoPlayer.play();
+  videoPlayer.scrollIntoView({ behavior: "smooth" });
 
-// 🚫 Proteksi klik kanan & shortcut inspect
-    document.addEventListener("contextmenu", e => e.preventDefault());
-    document.addEventListener("keydown", e => {
-      if (e.key === "F12") e.preventDefault();
-      if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
-      if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
-    });    
+  // bersihkan countdown lama
+  if (countdownTimer) {
+    clearTimeout(countdownTimer);
+    countdownTimer = null;
+  }
+}
 
+// =======================
+// Auto-play Next Video
+// =======================
+videoPlayer.addEventListener("ended", () => {
+  if (currentIndex < videoLinks.length - 1) {
+    let nextIndex = currentIndex + 1;
+    let countdown = 5; // detik
 
+    const countdownBox = document.createElement("div");
+    countdownBox.className = "countdown-overlay fade-in";
+    countdownBox.innerText = `Next video in ${countdown}...`;
+    document.body.appendChild(countdownBox);
 
+    const interval = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        countdownBox.innerText = `Next video in ${countdown}...`;
+      } else {
+        clearInterval(interval);
+        document.body.removeChild(countdownBox);
+        currentIndex = nextIndex;
+        playVideo(videoLinks[currentIndex]);
+      }
+    }, 1000);
+  }
+});
 
+// =======================
+// Dots Initialization
+// =======================
+function initDots(id, dotsId) {
+  const container = document.getElementById(id);
+  const dots = document.getElementById(dotsId);
+  const pages = Math.ceil(container.scrollWidth / container.clientWidth);
 
+  for (let i = 0; i < pages; i++) {
+    const dot = document.createElement("span");
+    if (i === 0) dot.classList.add("active");
+    dots.appendChild(dot);
+  }
+}
 
-
+document.addEventListener("DOMContentLoaded", () => {
+  initDots("gallery1", "dots1");
+});
