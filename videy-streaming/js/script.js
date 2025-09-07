@@ -64,6 +64,16 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
     }
 
     setupProgressDots("gallery1", "dots1");
+    setupProgressDots("gallery2", "dots2");
+       
+     // Scroll reveal
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("active");
+      });
+    }, { threshold: 0.2 });
+    reveals.forEach(el => observer.observe(el));
 
   // 🔹 Saat tombol Play ditekan
   videoLinks.forEach((link, index) => {
@@ -73,12 +83,6 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
       openModal(link.getAttribute("href"), figures[index]);
     });
   });
-
-  // 🔹 Fungsi buka modal
-  function openModal(videoUrl, figure) {
-    modal.style.display = "flex";
-    videoPlayer.src = videoUrl;
-    videoPlayer.play();
 
     // Reset preview next video
     setupNextPreview();
@@ -112,25 +116,6 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
     }, 1000);
   }
 
-  // 🔹 Tutup modal
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    videoPlayer.pause();
-    videoPlayer.src = "";
-    clearInterval(countdownTimer);
-  });
-
-  // 🔹 Klik di luar modal juga menutup
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.style.display = "none";
-      videoPlayer.pause();
-      videoPlayer.src = "";
-      clearInterval(countdownTimer);
-    }
-  });
-});
-
 // 🚫 Proteksi klik kanan & shortcut inspect
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", e => {
@@ -138,5 +123,6 @@ function setupProgressDots(galleryId, dotsId, interval = 5000) {
       if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
       if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
     });    
+
 
 
