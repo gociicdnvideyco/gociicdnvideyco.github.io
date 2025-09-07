@@ -1,51 +1,59 @@
-// ===== Scroll Gallery =====
-function scrollGallery(id, direction) {
-  const container = document.getElementById(id);
-  const scrollAmount = 300;
-  container.scrollBy({
-    left: direction * scrollAmount,
-    behavior: "smooth"
-  });
-}
+// Smooth page transition ketika klik Play
+document.querySelectorAll('.video-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const url = e.currentTarget.getAttribute('href');
 
-// ===== Popup Video Player =====
+    // Buat overlay transition
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.background = '#000';
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.8s ease';
+    document.body.appendChild(overlay);
+
+    setTimeout(() => {
+      overlay.style.opacity = '1';
+    }, 10);
+
+    // Redirect setelah animasi
+    setTimeout(() => {
+      window.location.href = url;
+    }, 900);
+  });
+});
+
+// Animasi scroll reveal
+const figures = document.querySelectorAll('figure');
+const revealOnScroll = () => {
+  const triggerBottom = window.innerHeight * 0.9;
+  figures.forEach(fig => {
+    const rect = fig.getBoundingClientRect();
+    if (rect.top < triggerBottom) {
+      fig.style.opacity = '1';
+      fig.style.transform = 'translateY(0)';
+    }
+  });
+};
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+// Efek tambahan: goyang iklan saat hover
 document.addEventListener("DOMContentLoaded", () => {
-  const videoLinks = document.querySelectorAll(".video-link");
+  const ads = document.querySelectorAll(".ads-box iframe");
 
-  // Modal structure
-  const modal = document.createElement("div");
-  modal.id = "video-modal";
-  modal.innerHTML = `
-    <div class="video-content">
-      <span class="close-btn">&times;</span>
-      <video id="modal-video" controls autoplay></video>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  const modalVideo = document.getElementById("modal-video");
-  const closeBtn = modal.querySelector(".close-btn");
-
-  // Open video
-  videoLinks.forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      const videoUrl = link.getAttribute("href");
-      modal.style.display = "flex";
-      modalVideo.src = videoUrl;
-      modalVideo.play();
+  ads.forEach(ad => {
+    ad.addEventListener("mouseenter", () => {
+      ad.style.transition = "transform 0.2s ease";
+      ad.style.transform = "rotate(-1.5deg) scale(1.05)";
     });
-  });
 
-  // Close modal
-  function closeModal() {
-    modal.style.display = "none";
-    modalVideo.pause();
-    modalVideo.src = "";
-  }
-
-  closeBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", e => {
-    if (e.target === modal) closeModal();
+    ad.addEventListener("mouseleave", () => {
+      ad.style.transform = "rotate(0) scale(1)";
+    });
   });
 });
