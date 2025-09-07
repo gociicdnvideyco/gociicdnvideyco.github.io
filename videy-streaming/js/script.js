@@ -1,6 +1,4 @@
-
-<script>
-    function setupProgressDots(galleryId, dotsId, interval = 5000) {
+function setupProgressDots(galleryId, dotsId, interval = 5000) {
       const gallery = document.getElementById(galleryId);
       const figures = gallery.querySelectorAll("figure");
       const dotsContainer = document.getElementById(dotsId);
@@ -57,19 +55,15 @@
 
       startAutoPlay();
     }
-document.addEventListener("DOMContentLoaded", () => {
-  const videoLinks = document.querySelectorAll(".video-link");
-  const modal = document.getElementById("videoModal");
-  const videoPlayer = document.getElementById("videoPlayer");
-  const closeBtn = document.getElementById("closeBtn");
-  const nextPreview = document.getElementById("nextPreview");
-  const nextThumb = document.getElementById("nextThumb");
-  const nextTitle = document.getElementById("nextTitle");
-  const countdownEl = document.getElementById("countdown");
 
-  let figures = Array.from(document.querySelectorAll("figure"));
-  let currentIndex = 0;
-  let countdownTimer;
+    // tombol panah manual scroll
+    function scrollGallery(galleryId, direction) {
+      const gallery = document.getElementById(galleryId);
+      const scrollAmount = 250;
+      gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
+    setupProgressDots("gallery1", "dots1");
 
   // 🔹 Saat tombol Play ditekan
   videoLinks.forEach((link, index) => {
@@ -136,4 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// 🚫 Proteksi klik kanan & shortcut inspect
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (e.key === "F12") e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
+      if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
+    });    
+
 
