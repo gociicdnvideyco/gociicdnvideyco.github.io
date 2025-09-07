@@ -149,4 +149,27 @@ function playNextVideo() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const videoLinks = document.querySelectorAll(".video-link");
+  const videoModal = document.getElementById("videoModal");
+  const videoPlayer = document.getElementById("videoPlayer");
+  const closeBtn = document.getElementById("closeBtn");
+
+  videoLinks.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const videoUrl = link.getAttribute("href");
+      videoPlayer.src = videoUrl;
+      videoModal.style.display = "flex";
+      videoPlayer.play();
+    });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    videoModal.style.display = "none";
+    videoPlayer.pause();
+    videoPlayer.src = "";
+  });
+});
+
 
